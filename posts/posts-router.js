@@ -22,7 +22,7 @@ router.get('/', (req,res)=> {
 router.get('/:id', (req, res)=>{
     Data.findById(req.params.id)
     .then( post => {
-        if(post){
+        if(post > 0){
         res.status(200).json(post)
        } else {
            res.status(404).json({
@@ -41,7 +41,7 @@ router.get('/:id', (req, res)=>{
 router.get('/:id/comments', (req,res)=> {
     Data.findPostComments(req.params.id)
     .then( post => {
-        if(post){
+        if(post.length > 0){
             res.status(200).json(post)
         } else{
             res.status(404).json({
@@ -58,14 +58,16 @@ router.get('/:id/comments', (req,res)=> {
 })
 
 router.post('/', (req, res)=> {
+    
     Data.insert(req.body)
    .then( newPost => {
-        if(newPost){
+        if(req.body.title === "" || req.body.contents === ""){
+            res.status(400).json({
+                message: "Please provide title and contents for the post." 
+            })
+    } else if(newPost){
+        // don't know how to get it to fall through this level
         res.status(201).json(newPost)
-    } else if(!newPost.title || !newPost.contents){
-        res.status(400).json({
-            message: "Please provide title and contents for the post." 
-        })
     }
    })
    .catch( err => {
@@ -79,14 +81,17 @@ router.post('/', (req, res)=> {
 router.post('/:id/comments', (req, res)=> {
     Data.insertComment(req.body)
     .then( newComment => {
-        if(newComment){
-            res.status(201).json(newComment)
-        } else if( !newComment.text){
+        if(req.body.text === ""){
             res.status(400).json({
                 message: "Please provide text for the comment." 
             })
+            
+        } else if (newComment){
+        
+            res.status(201).json(newComment)
         }else{
             res.status(404).json({
+         // don't know how to get it to fall through this level
                 message: "The post with the specified ID does not exist."
             })
         }
@@ -122,16 +127,17 @@ router.delete('/:id', (req,res)=>{
 router.put('/:id', (req, res)=>{
     Data.update(req.params.id, req.body)
     .then( updated => {
-        if(updated){
-            res.status(200).json(updated)
-        } else if(!updated.title || !updated.contents){
+        if(req.body.title === "" || req.body.contents === "" ){
             res.status(400).json({
                 message: "Please provide title and contents for the post."
             })
-        } else {
+        } else if(req.params.id === undefined){
             res.status(404).json({
+                 // don't know how to get it to fall through this level
                 message: "The post with the specified ID does not exist."
             })
+        } else {
+            res.status(200).json(updated)
         }
     })
     .catch( err=>{
