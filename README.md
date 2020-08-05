@@ -69,6 +69,41 @@ A Comment in the database has the following structure:
 - Add the code necessary to implement the endpoints listed below.
 - Separate the endpoints that begin with `/api/posts` into a separate `Express Router`.
 
+
+## TODO
+- create index.js
+  - Add express 
+  - Add const Server
+  - Add server.use
+  - Add server.listen
+  - Add Server is working get request 
+  - Add router variable mapped to folder 
+
+- Create Router Folder & set up file 
+ - Add express
+ - Add router 
+ - import methods out of db.js
+ - import router 
+
+- Create Endpoint for CRUD 
+ - POST : for posts
+    - endpoint specifications 
+ - POST : for comments
+    - endpoint specifications 
+ - GET : return a;; posts array
+    - endpoint specifications 
+ - GET : posts by ID
+    - endpoint specifications 
+ - GET : get comments assocaited with post ID
+    - endpoint specifications 
+ - DELETE : delete posts by given ID
+    - endpoint specifications 
+ - PUT : update posts with specific ID
+    - endpoint specifications 
+
+
+
+
 ### Endpoints
 
 Configure the API to handle to the following routes:
